@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MathQuest | 数学インタラクティブ教材ポータル</title>
   
+  <!-- ファビコン (SVG Data URI) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%232563eb'/%3E%3Cstop offset='50%25' stop-color='%236366f1'/%3E%3Cstop offset='100%25' stop-color='%238b5cf6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Cpolygon points='22,14 34,34 10,34' fill='%23ffffff' opacity='0.95'/%3E%3Ccircle cx='46' cy='24' r='10' fill='%2338bdf8' opacity='0.9'/%3E%3Crect x='28' y='36' width='22' height='22' rx='4' fill='%23fbcfe8' opacity='0.9'/%3E%3C/svg%3E">
+
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -40,12 +43,11 @@
 
   <!-- Google Fonts & FontAwesome CDN -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <style>
-    /* グラスモーフィズムとスムーズなトランジション設定 */
     .glass-card {
       background: rgba(255, 255, 255, 0.85);
       backdrop-filter: blur(12px);
@@ -62,7 +64,6 @@
     .dark .glass-nav {
       background: rgba(15, 23, 42, 0.9);
     }
-    /* カスタムスクロールバー */
     ::-webkit-scrollbar {
       width: 8px;
       height: 8px;
@@ -77,7 +78,6 @@
     .dark ::-webkit-scrollbar-thumb {
       background: #475569;
     }
-    /* アニメーション用パルスとフロート */
     @keyframes subtleFloat {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-4px); }
@@ -108,7 +108,7 @@
         </div>
       </a>
 
-      <!-- 右側のアクションボタン郡 -->
+      <!-- 右側のアクションボタン群 -->
       <div class="flex items-center gap-2 sm:gap-3">
         <!-- 学習進捗バッジ -->
         <button id="progressBtn" onclick="toggleProgressSummary()" class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-colors border border-slate-200 dark:border-slate-700" title="探究済み教材の進捗状況">
@@ -117,7 +117,7 @@
           <span id="navProgressRate" class="text-brand-600 dark:text-brand-400 font-bold">0 / 6 (0%)</span>
         </button>
 
-        <!-- お気に入りフィルター切り替えボタン -->
+        <!-- ブックマークフィルター切り替えボタン -->
         <button id="favoriteFilterToggleBtn" onclick="toggleFavoritesOnlyFilter()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-amber-500 transition-colors shadow-sm">
           <i id="favoriteFilterIcon" class="fa-regular fa-star text-amber-500"></i>
           <span class="hidden sm:inline">ブックマーク</span>
@@ -162,7 +162,7 @@
         三角形の合同や相似、変化の割合、動点Pの軌跡、整数の神秘、2次関数の放物線、そして立体の展開・切断まで。ブラウザ上で直接操作して、数学の数式や定理の裏にある本質を発見しよう。
       </p>
 
-      <!-- クイックランダム学習ボタン & 統計 -->
+      <!-- クイックランダム学習ボタン & 探索リンク -->
       <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
         <button onclick="launchRandomApp()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-slate-800 dark:hover:bg-slate-100 shadow-lg shadow-slate-900/10 active:scale-95 transition-all">
           <i class="fa-solid fa-dice text-brand-400 dark:text-brand-600"></i>
@@ -248,9 +248,7 @@
 
   <!-- メインコンテンツ: 教材カードグリッド -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 flex-1">
-    <div id="cardsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- カードはJavaScriptにより動的に描画されます -->
-    </div>
+    <div id="cardsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
 
     <!-- 検索結果がゼロの場合の空ステート -->
     <div id="emptyState" class="hidden text-center py-16 px-4">
@@ -259,121 +257,13 @@
       </div>
       <h3 class="text-base font-bold text-slate-700 dark:text-slate-200">条件に一致する教材が見つかりませんでした</h3>
       <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-sm mx-auto">
-        キーワードの綴りを確認するか、絞り込みフィルター（学年・分野・お気に入り）を解除してみてください。
+        キーワードの綴りを確認するか、絞り込みフィルター（学年・分野・ブックマーク）を解除してみてください。
       </p>
       <button onclick="resetAllFilters()" class="mt-4 px-4 py-2 rounded-xl text-xs font-semibold bg-brand-600 hover:bg-brand-700 text-white shadow-sm transition-all">
         フィルターをリセット
       </button>
     </div>
   </main>
-
-  <!-- インライン アプリ実行モーダル (Runner Modal) -->
-  <div id="runnerModal" class="fixed inset-0 z-50 hidden flex-col bg-slate-950/80 backdrop-blur-md transition-opacity duration-300 opacity-0 pointer-events-none">
-    
-    <!-- モーダルヘッダー -->
-    <div class="h-14 px-4 sm:px-6 bg-slate-900 border-b border-slate-800 flex items-center justify-between text-white flex-shrink-0">
-      <div class="flex items-center gap-3 overflow-hidden">
-        <div id="runnerIconWrapper" class="w-8 h-8 rounded-lg flex items-center justify-center text-white text-sm bg-brand-600 flex-shrink-0">
-          <i class="fa-solid fa-play"></i>
-        </div>
-        <div class="min-w-0">
-          <h2 id="runnerTitle" class="text-sm font-bold truncate">教材タイトル</h2>
-          <div class="flex items-center gap-2 text-[11px] text-slate-400">
-            <span id="runnerUrlBadge" class="truncate max-w-[200px] sm:max-w-xs font-mono">url</span>
-            <span class="inline-block w-1 h-1 rounded-full bg-slate-600"></span>
-            <span id="timerBadge" class="text-emerald-400 font-mono"><i class="fa-regular fa-clock mr-1"></i><span id="appTimer">00:00</span></span>
-          </div>
-        </div>
-      </div>
-
-      <!-- 操作ボタン群 -->
-      <div class="flex items-center gap-1.5 sm:gap-2">
-        <!-- メモ帳パネルトグル -->
-        <button onclick="toggleSideNotes()" id="runnerNotesToggleBtn" class="px-2.5 py-1.5 rounded-lg text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors flex items-center gap-1.5" title="学習メモを開く">
-          <i class="fa-solid fa-pen-to-square text-amber-400"></i>
-          <span class="hidden md:inline">メモ帳</span>
-        </button>
-
-        <!-- 完了チェック -->
-        <button id="runnerCompleteBtn" onclick="toggleCompletedFromRunner()" class="px-2.5 py-1.5 rounded-lg text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors flex items-center gap-1.5" title="探究完了マーク">
-          <i id="runnerCompleteIcon" class="fa-regular fa-circle-check text-emerald-400"></i>
-          <span class="hidden md:inline" id="runnerCompleteText">探究済みにする</span>
-        </button>
-
-        <!-- リロードボタン -->
-        <button onclick="reloadRunnerIframe()" class="w-8 h-8 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 flex items-center justify-center transition-colors" title="アプリを再読み込み">
-          <i class="fa-solid fa-rotate-right"></i>
-        </button>
-
-        <!-- 別タブで開くボタン -->
-        <a id="runnerExternalLink" href="#" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 flex items-center justify-center transition-colors" title="新しいタブで直接開く">
-          <i class="fa-solid fa-arrow-up-right-from-square"></i>
-        </a>
-
-        <!-- フルスクリーン切り替え -->
-        <button onclick="toggleFullscreen()" class="w-8 h-8 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 flex items-center justify-center transition-colors" title="全画面表示">
-          <i id="fullscreenIcon" class="fa-solid fa-expand"></i>
-        </button>
-
-        <!-- 閉じるボタン -->
-        <button onclick="closeRunnerModal()" class="w-8 h-8 rounded-lg text-slate-400 hover:text-red-400 hover:bg-slate-800 flex items-center justify-center transition-colors text-base" title="閉じる (Esc)">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
-    </div>
-
-    <!-- モーダル本体（iframe + サイドノートドロワー） -->
-    <div class="relative flex-1 flex overflow-hidden bg-slate-950">
-      
-      <!-- iframe本体 -->
-      <div class="relative flex-1 h-full w-full bg-white">
-        <!-- ローディングインジケーター -->
-        <div id="iframeLoader" class="absolute inset-0 z-10 flex flex-col items-center justify-center bg-slate-900 text-white transition-opacity duration-300">
-          <div class="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-3"></div>
-          <p class="text-xs text-slate-300 font-semibold tracking-wide">教材を読み込み中...</p>
-          <p class="text-[11px] text-slate-500 mt-1">GitHub Pagesから直接ロードしています</p>
-        </div>
-
-        <iframe 
-          id="appIframe" 
-          src="about:blank" 
-          class="w-full h-full border-0" 
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; full-screen"
-          onload="hideIframeLoader()"
-        ></iframe>
-      </div>
-
-      <!-- サイド学習メモパネル -->
-      <div id="sideNotesPanel" class="w-80 border-l border-slate-800 bg-slate-900 text-slate-100 flex flex-col transition-all duration-300 translate-x-full absolute right-0 top-0 bottom-0 z-20 shadow-2xl">
-        <div class="p-3 border-b border-slate-800 flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <i class="fa-solid fa-book-open text-amber-400 text-xs"></i>
-            <span class="text-xs font-bold">探究メモ & 気づき</span>
-          </div>
-          <button onclick="toggleSideNotes()" class="text-slate-400 hover:text-white text-xs p-1">
-            <i class="fa-solid fa-chevron-right"></i>
-          </button>
-        </div>
-        <div class="p-4 flex-1 flex flex-col">
-          <p class="text-[11px] text-slate-400 mb-2">
-            操作して気づいたことや、公式・定理の証明アイデアなどをメモしておけます（ブラウザに自動保存）。
-          </p>
-          <textarea 
-            id="runnerMemoTextarea" 
-            class="flex-1 w-full p-3 rounded-xl bg-slate-800 text-slate-100 text-xs font-mono border border-slate-700 focus:outline-none focus:ring-2 focus:ring-amber-400/50 resize-none leading-relaxed" 
-            placeholder="例: 点Pが点Bに達したときにグラフの傾きが変わる理由..."
-            oninput="saveCurrentAppMemo(this.value)"
-          ></textarea>
-          <div class="mt-2 text-right">
-            <span id="memoSavedStatus" class="text-[10px] text-emerald-400 transition-opacity opacity-0">
-              <i class="fa-solid fa-check mr-1"></i>保存しました
-            </span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
 
   <!-- 新規教材追加モーダル (Add Custom App Modal) -->
   <div id="addModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/70 backdrop-blur-sm p-4 opacity-0 transition-opacity duration-200">
@@ -498,7 +388,7 @@
         grade: '中2',
         gradeBadge: '中2・中3',
         icon: 'fa-triangle-circle-square',
-        themeColor: '#10b981', // emerald
+        themeColor: '#10b981',
         tags: ['三角形の合同', '相似比', '三平方の定理', '内角・外角', '図形の証明'],
         points: [
           '頂点をリアルタイムにドラッグして形状変化を観察',
@@ -517,7 +407,7 @@
         grade: '中2',
         gradeBadge: '中2・中3・高1',
         icon: 'fa-chart-line',
-        themeColor: '#6366f1', // indigo
+        themeColor: '#6366f1',
         tags: ['変化の割合', '1次関数 y=ax+b', '2次関数 y=ax²', '傾き', '増加量'],
         points: [
           'xの増加量とyの増加量のステップをグラフ上でステップ表示',
@@ -536,7 +426,7 @@
         grade: '中3',
         gradeBadge: '中2・中3応用',
         icon: 'fa-person-running',
-        themeColor: '#f59e0b', // amber
+        themeColor: '#f59e0b',
         tags: ['動点P問題', '一次関数と面積', '場合分け', 'グラフ連動', '入試頻出'],
         points: [
           '点Pの移動に合わせて作られる三角形の面積がリアルタイム変化',
@@ -555,7 +445,7 @@
         grade: '中1',
         gradeBadge: '中1・高1(数A)',
         icon: 'fa-cubes-stacked',
-        themeColor: '#ec4899', // pink
+        themeColor: '#ec4899',
         tags: ['素因数分解', 'エラトステネスの篩', 'ユークリッド互除法', '公約数・公倍数', '合同式'],
         points: [
           '数字グリッドから素数が浮き上がるグラフィカルな篩い分け',
@@ -574,7 +464,7 @@
         grade: '中3',
         gradeBadge: '中3・高1',
         icon: 'fa-chart-area',
-        themeColor: '#3b82f6', // blue
+        themeColor: '#3b82f6',
         tags: ['放物線 y=ax²', '変域の最大最小', '直線の交点', '放物線と三角形の面積', '係数aの影響'],
         points: [
           'スライダーを動かして係数 a の正負・絶対値による放物線の開きを観察',
@@ -593,7 +483,7 @@
         grade: '中1',
         gradeBadge: '中1・中3・高校',
         icon: 'fa-cube',
-        themeColor: '#8b5cf6', // purple
+        themeColor: '#8b5cf6',
         tags: ['展開図と見取図', '回転体', '立体の切断面', '表面積・体積', '3D自由視点'],
         points: [
           'マウスやスワイプで立体を360度グルグル回転・空間認識力を強化',
@@ -620,12 +510,7 @@
     let currentGradeFilter = 'all';
     let searchQuery = '';
     let showFavoritesOnly = false;
-    let viewMode = 'grid'; // 'grid' | 'list'
-
-    // ランナータイマー状態
-    let runnerTimerInterval = null;
-    let runnerSeconds = 0;
-    let activeRunningAppId = null;
+    let viewMode = 'grid';
 
     // カード用の数学的SVGイラストジェネレーター
     function getSvgIllustration(type, color) {
@@ -640,11 +525,9 @@
                 </linearGradient>
               </defs>
               <polygon points="100,18 175,102 25,102" fill="url(#grad-tri)" stroke="${color}" stroke-width="2.5" stroke-linejoin="round" />
-              <!-- 内角アーク -->
               <path d="M 38 102 A 15 15 0 0 0 45 92" stroke="${color}" stroke-width="1.8" fill="none"/>
               <path d="M 162 102 A 15 15 0 0 1 155 92" stroke="${color}" stroke-width="1.8" fill="none"/>
               <line x1="100" y1="18" x2="100" y2="102" stroke="${color}" stroke-dasharray="3,3" stroke-width="1.5" />
-              <!-- 頂点ドット -->
               <circle cx="100" cy="18" r="4.5" fill="${color}"/>
               <circle cx="25" cy="102" r="4.5" fill="${color}"/>
               <circle cx="175" cy="102" r="4.5" fill="${color}"/>
@@ -655,12 +538,9 @@
         case 'gradient':
           return `
             <svg class="w-full h-full" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
-              <!-- 座標軸 -->
               <line x1="20" y1="100" x2="185" y2="100" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2"/>
               <line x1="30" y1="10" x2="30" y2="110" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2"/>
-              <!-- 直線 -->
               <line x1="25" y1="95" x2="175" y2="25" stroke="${color}" stroke-width="3" stroke-linecap="round"/>
-              <!-- 階段状の増加量表示 -->
               <rect x="70" y="52" width="60" height="23" fill="${color}" fill-opacity="0.12" stroke="${color}" stroke-dasharray="2,2"/>
               <line x1="70" y1="75" x2="130" y2="75" stroke="${color}" stroke-width="2"/>
               <line x1="130" y1="75" x2="130" y2="52" stroke="${color}" stroke-width="2"/>
@@ -673,16 +553,12 @@
         case 'motion':
           return `
             <svg class="w-full h-full" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
-              <!-- 長方形枠 -->
               <rect x="30" y="25" width="80" height="70" fill="none" stroke="#64748b" stroke-width="1.8" rx="2"/>
-              <!-- 三角形PAB -->
               <polygon points="30,95 110,95 75,25" fill="${color}" fill-opacity="0.25" stroke="${color}" stroke-width="2"/>
-              <!-- 動点P -->
               <circle cx="75" cy="25" r="5" fill="#f59e0b">
                 <animate attributeName="cx" values="30;110;110;30" dur="4s" repeatCount="indefinite" />
                 <animate attributeName="cy" values="25;25;95;95" dur="4s" repeatCount="indefinite" />
               </circle>
-              <!-- ミニグラフ -->
               <line x1="135" y1="95" x2="185" y2="95" stroke="#94a3b8" stroke-width="1"/>
               <line x1="135" y1="35" x2="135" y2="95" stroke="#94a3b8" stroke-width="1"/>
               <path d="M 135 95 L 155 50 L 175 50 L 185 95" fill="none" stroke="${color}" stroke-width="2"/>
@@ -693,35 +569,25 @@
         case 'numbers':
           return `
             <svg class="w-full h-full" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
-              <!-- 数学グリッド / エラトステネス -->
               <g transform="translate(25, 20)">
                 <rect x="0" y="0" width="22" height="22" rx="4" fill="${color}" fill-opacity="0.2"/>
                 <text x="11" y="15" fill="${color}" font-size="11" text-anchor="middle" font-weight="bold">2</text>
-                
                 <rect x="30" y="0" width="22" height="22" rx="4" fill="${color}" fill-opacity="0.2"/>
                 <text x="41" y="15" fill="${color}" font-size="11" text-anchor="middle" font-weight="bold">3</text>
-                
                 <rect x="60" y="0" width="22" height="22" rx="4" fill="#94a3b8" fill-opacity="0.1"/>
                 <text x="71" y="15" fill="#94a3b8" font-size="10" text-anchor="middle" text-decoration="line-through">4</text>
-                
                 <rect x="90" y="0" width="22" height="22" rx="4" fill="${color}" fill-opacity="0.2"/>
                 <text x="101" y="15" fill="${color}" font-size="11" text-anchor="middle" font-weight="bold">5</text>
-                
                 <rect x="120" y="0" width="22" height="22" rx="4" fill="${color}" fill-opacity="0.2"/>
                 <text x="131" y="15" fill="${color}" font-size="11" text-anchor="middle" font-weight="bold">7</text>
-
                 <rect x="0" y="30" width="22" height="22" rx="4" fill="${color}" fill-opacity="0.2"/>
                 <text x="11" y="45" fill="${color}" font-size="11" text-anchor="middle" font-weight="bold">11</text>
-
                 <rect x="30" y="30" width="22" height="22" rx="4" fill="${color}" fill-opacity="0.2"/>
                 <text x="41" y="45" fill="${color}" font-size="11" text-anchor="middle" font-weight="bold">13</text>
-
                 <rect x="60" y="30" width="22" height="22" rx="4" fill="${color}" fill-opacity="0.2"/>
                 <text x="71" y="45" fill="${color}" font-size="11" text-anchor="middle" font-weight="bold">17</text>
-
                 <rect x="90" y="30" width="22" height="22" rx="4" fill="${color}" fill-opacity="0.2"/>
                 <text x="101" y="45" fill="${color}" font-size="11" text-anchor="middle" font-weight="bold">19</text>
-
                 <rect x="120" y="30" width="22" height="22" rx="4" fill="${color}" fill-opacity="0.2"/>
                 <text x="131" y="45" fill="${color}" font-size="11" text-anchor="middle" font-weight="bold">23</text>
               </g>
@@ -732,9 +598,7 @@
             <svg class="w-full h-full" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
               <line x1="20" y1="95" x2="180" y2="95" stroke="#94a3b8" stroke-width="1.2"/>
               <line x1="100" y1="15" x2="100" y2="105" stroke="#94a3b8" stroke-width="1.2"/>
-              <!-- 放物線 y = ax^2 -->
               <path d="M 40 25 Q 100 115 160 25" fill="none" stroke="${color}" stroke-width="3" stroke-linecap="round"/>
-              <!-- 変域シャドウ -->
               <rect x="70" y="25" width="50" height="70" fill="${color}" fill-opacity="0.12"/>
               <circle cx="70" cy="72" r="3.5" fill="${color}"/>
               <circle cx="120" cy="72" r="3.5" fill="${color}"/>
@@ -745,15 +609,10 @@
         case 'cube3d':
           return `
             <svg class="w-full h-full" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
-              <!-- 3D等角立方体 -->
               <g transform="translate(100, 60)">
-                <!-- 上面 -->
                 <polygon points="0,-35 45,-15 0,5 -45,-15" fill="${color}" fill-opacity="0.35" stroke="${color}" stroke-width="1.8"/>
-                <!-- 右面 -->
                 <polygon points="0,5 45,-15 45,30 0,50" fill="${color}" fill-opacity="0.2" stroke="${color}" stroke-width="1.8"/>
-                <!-- 左面 -->
                 <polygon points="0,5 -45,-15 -45,30 0,50" fill="${color}" fill-opacity="0.5" stroke="${color}" stroke-width="1.8"/>
-                <!-- 断面ライン例 -->
                 <polygon points="-22,-5 22,-5 0,25" fill="#f59e0b" fill-opacity="0.4" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="2,2"/>
               </g>
               <text x="100" y="112" fill="${color}" font-size="9" font-family="monospace" text-anchor="middle">3D Rotation & Net</text>
@@ -773,15 +632,11 @@
       const emptyState = document.getElementById('emptyState');
       
       const filtered = appsData.filter(app => {
-        // 分野フィルター
         if (currentCategoryFilter !== 'all' && app.category !== currentCategoryFilter) return false;
-        // 学年フィルター
         if (currentGradeFilter !== 'all') {
           if (!app.grade.includes(currentGradeFilter) && !app.gradeBadge.includes(currentGradeFilter)) return false;
         }
-        // お気に入りフィルター
         if (showFavoritesOnly && !favorites.has(app.id)) return false;
-        // 検索クエリ
         if (searchQuery.trim() !== '') {
           const q = searchQuery.toLowerCase().trim();
           const matchTitle = app.title.toLowerCase().includes(q);
@@ -794,7 +649,6 @@
         return true;
       });
 
-      // 表示件数ラベル更新
       const resultCountLabel = document.getElementById('resultCountLabel');
       if (resultCountLabel) {
         resultCountLabel.textContent = `${filtered.length} 件の教材を表示中`;
@@ -851,18 +705,18 @@
               </span>
             </div>
 
-            <!-- アクション（お気に入り・完了ステータス） -->
+            <!-- アクション（お気に入りボタン） -->
             <div class="absolute top-3 right-3 flex items-center gap-1">
               <button 
                 onclick="toggleFavorite('${app.id}')" 
                 class="w-8 h-8 rounded-full bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm border border-slate-200/60 dark:border-slate-700 flex items-center justify-center text-xs transition-colors shadow-sm ${isFav ? 'text-amber-500' : 'text-slate-400 hover:text-amber-500'}"
-                title="${isFav ? 'お気に入りから外す' : 'お気に入りに追加'}"
+                title="${isFav ? 'ブックマーク解除' : 'ブックマークに追加'}"
               >
                 <i class="${isFav ? 'fa-solid' : 'fa-regular'} fa-star"></i>
               </button>
             </div>
 
-            <!-- 完了マーク -->
+            <!-- 探究済みマーク -->
             ${isCompleted ? `
               <div class="absolute bottom-2 right-3 flex items-center gap-1 bg-emerald-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm">
                 <i class="fa-solid fa-check"></i> 探究済み
@@ -874,9 +728,9 @@
           <div class="p-5 flex-1 flex flex-col justify-between">
             <div>
               <div class="flex items-start justify-between gap-2 mb-2">
-                <h3 class="font-bold text-base text-slate-800 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
-                  ${app.title}
-                </h3>
+                <a href="${app.url}" target="_blank" rel="noopener noreferrer" class="font-bold text-base text-slate-800 dark:text-white hover:text-brand-600 dark:hover:text-brand-400 transition-colors inline-flex items-center gap-1.5 group-hover:text-brand-600">
+                  <span>${app.title}</span>
+                </a>
               </div>
 
               <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mb-3">
@@ -903,9 +757,18 @@
               </div>
             </div>
 
-            <!-- 下部アクションボタンバー -->
+            <!-- 下部アクションバー -->
             <div class="pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-2">
               <div class="flex items-center gap-1">
+                <!-- 探究完了トグル -->
+                <button 
+                  onclick="toggleCompleted('${app.id}')" 
+                  class="p-2 rounded-lg text-xs font-semibold ${isCompleted ? 'text-emerald-500 bg-emerald-50 dark:bg-emerald-950/40' : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'} transition-colors"
+                  title="${isCompleted ? '探究完了を取り消す' : '探究完了にする'}"
+                >
+                  <i class="${isCompleted ? 'fa-solid' : 'fa-regular'} fa-circle-check text-sm"></i>
+                </button>
+                <!-- メモボタン -->
                 <button 
                   onclick="openMemoDialog('${app.id}')" 
                   class="p-2 rounded-lg text-xs font-semibold ${hasNote ? 'text-amber-500 bg-amber-50 dark:bg-amber-950/40' : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'} transition-colors"
@@ -913,26 +776,19 @@
                 >
                   <i class="fa-regular fa-note-sticky text-sm"></i>
                 </button>
-                <a 
-                  href="${app.url}" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  class="p-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-                  title="別タブで開く"
-                >
-                  <i class="fa-solid fa-arrow-up-right-from-square text-sm"></i>
-                </a>
               </div>
 
-              <!-- ポータル内で開くメインCTA -->
-              <button 
-                onclick="launchApp('${app.id}')" 
-                class="flex-1 max-w-[150px] inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl text-xs font-bold text-white shadow-sm transition-all active:scale-95"
+              <!-- 別タブで開くメインボタン -->
+              <a 
+                href="${app.url}" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                class="flex-1 max-w-[150px] inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl text-xs font-bold text-white shadow-sm transition-all hover:opacity-95 active:scale-95"
                 style="background: linear-gradient(135deg, ${color}, #1d4ed8);"
               >
-                <i class="fa-solid fa-play text-[10px]"></i>
-                <span>起動する</span>
-              </button>
+                <span>教材を開く</span>
+                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+              </a>
             </div>
 
           </div>
@@ -953,7 +809,7 @@
               <div class="flex items-center gap-2 flex-wrap">
                 <span class="text-xs font-bold px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">${app.gradeBadge}</span>
                 <span class="text-xs font-bold px-2 py-0.5 rounded text-white" style="background-color: ${color};">${app.category}</span>
-                <h4 class="font-bold text-sm text-slate-800 dark:text-white truncate">${app.title}</h4>
+                <a href="${app.url}" target="_blank" rel="noopener noreferrer" class="font-bold text-sm text-slate-800 dark:text-white truncate hover:text-brand-600 transition-colors">${app.title}</a>
                 ${isCompleted ? '<span class="text-[10px] text-emerald-500 font-bold"><i class="fa-solid fa-circle-check"></i> 探究済</span>' : ''}
               </div>
               <p class="text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5 max-w-xl">${app.shortDesc}</p>
@@ -961,191 +817,35 @@
           </div>
 
           <div class="flex items-center gap-2 w-full sm:w-auto justify-end pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100 dark:border-slate-800">
-            <button onclick="toggleFavorite('${app.id}')" class="p-2 rounded-lg text-xs ${isFav ? 'text-amber-500' : 'text-slate-400 hover:text-amber-500'}">
+            <button onclick="toggleCompleted('${app.id}')" class="p-2 rounded-lg text-xs ${isCompleted ? 'text-emerald-500' : 'text-slate-400 hover:text-emerald-500'}" title="${isCompleted ? '探究完了を取り消す' : '探究完了にする'}">
+              <i class="${isCompleted ? 'fa-solid' : 'fa-regular'} fa-circle-check"></i>
+            </button>
+            <button onclick="toggleFavorite('${app.id}')" class="p-2 rounded-lg text-xs ${isFav ? 'text-amber-500' : 'text-slate-400 hover:text-amber-500'}" title="ブックマーク">
               <i class="${isFav ? 'fa-solid' : 'fa-regular'} fa-star"></i>
             </button>
-            <button onclick="openMemoDialog('${app.id}')" class="p-2 rounded-lg text-xs ${hasNote ? 'text-amber-500' : 'text-slate-400 hover:text-slate-600'}">
+            <button onclick="openMemoDialog('${app.id}')" class="p-2 rounded-lg text-xs ${hasNote ? 'text-amber-500' : 'text-slate-400 hover:text-slate-600'}" title="メモを書く">
               <i class="fa-regular fa-note-sticky"></i>
             </button>
-            <a href="${app.url}" target="_blank" rel="noopener noreferrer" class="p-2 rounded-lg text-xs text-slate-400 hover:text-slate-600">
-              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            <a href="${app.url}" target="_blank" rel="noopener noreferrer" class="px-3.5 py-1.5 rounded-xl text-xs font-bold text-white bg-brand-600 hover:bg-brand-700 transition-colors flex items-center gap-1.5 shadow-sm">
+              <span>開く</span>
+              <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
             </a>
-            <button onclick="launchApp('${app.id}')" class="px-3.5 py-1.5 rounded-xl text-xs font-bold text-white bg-brand-600 hover:bg-brand-700 transition-colors flex items-center gap-1.5 shadow-sm">
-              <i class="fa-solid fa-play text-[10px]"></i> 起動
-            </button>
           </div>
         </div>
       `;
     }
 
-    // アプリ起動（モーダル内インライン実行）
-    function launchApp(id) {
-      const app = appsData.find(a => a.id === id);
-      if (!app) return;
-
-      activeRunningAppId = id;
-      const modal = document.getElementById('runnerModal');
-      const iframe = document.getElementById('appIframe');
-      const title = document.getElementById('runnerTitle');
-      const urlBadge = document.getElementById('runnerUrlBadge');
-      const iconWrapper = document.getElementById('runnerIconWrapper');
-      const externalLink = document.getElementById('runnerExternalLink');
-      const loader = document.getElementById('iframeLoader');
-      const memoTextarea = document.getElementById('runnerMemoTextarea');
-
-      title.textContent = app.title;
-      urlBadge.textContent = app.url;
-      externalLink.href = app.url;
-      iconWrapper.style.backgroundColor = app.themeColor || '#3b82f6';
-      
-      // 保存済みメモをロード
-      memoTextarea.value = appNotes[id] || '';
-
-      // 完了ステータス更新
-      updateRunnerCompleteButton(completedApps.has(id));
-
-      // ローダー表示
-      loader.classList.remove('opacity-0', 'pointer-events-none');
-      iframe.src = app.url;
-
-      // モーダル表示
-      modal.classList.remove('hidden');
-      requestAnimationFrame(() => {
-        modal.classList.remove('opacity-0', 'pointer-events-none');
-      });
-
-      // タイマースタート
-      startRunnerTimer();
-    }
-
-    // iframeロード完了ハンドラ
-    function hideIframeLoader() {
-      const loader = document.getElementById('iframeLoader');
-      if (loader) {
-        loader.classList.add('opacity-0', 'pointer-events-none');
-      }
-    }
-
-    // iframe再読み込み
-    function reloadRunnerIframe() {
-      const iframe = document.getElementById('appIframe');
-      const loader = document.getElementById('iframeLoader');
-      if (iframe && iframe.src) {
-        loader.classList.remove('opacity-0', 'pointer-events-none');
-        iframe.src = iframe.src;
-      }
-    }
-
-    // ランナーを閉じる
-    function closeRunnerModal() {
-      const modal = document.getElementById('runnerModal');
-      const iframe = document.getElementById('appIframe');
-      
-      modal.classList.add('opacity-0', 'pointer-events-none');
-      stopRunnerTimer();
-
-      setTimeout(() => {
-        modal.classList.add('hidden');
-        iframe.src = 'about:blank';
-        activeRunningAppId = null;
-      }, 250);
-    }
-
-    // タイマー管理
-    function startRunnerTimer() {
-      stopRunnerTimer();
-      runnerSeconds = 0;
-      updateTimerDisplay();
-      runnerTimerInterval = setInterval(() => {
-        runnerSeconds++;
-        updateTimerDisplay();
-      }, 1000);
-    }
-
-    function stopRunnerTimer() {
-      if (runnerTimerInterval) {
-        clearInterval(runnerTimerInterval);
-        runnerTimerInterval = null;
-      }
-    }
-
-    function updateTimerDisplay() {
-      const timerEl = document.getElementById('appTimer');
-      if (!timerEl) return;
-      const mins = Math.floor(runnerSeconds / 60).toString().padStart(2, '0');
-      const secs = (runnerSeconds % 60).toString().padStart(2, '0');
-      timerEl.textContent = `${mins}:${secs}`;
-    }
-
-    // サイドメモ帳パネルのトグル
-    function toggleSideNotes() {
-      const panel = document.getElementById('sideNotesPanel');
-      const isClosed = panel.classList.contains('translate-x-full');
-      if (isClosed) {
-        panel.classList.remove('translate-x-full');
-      } else {
-        panel.classList.add('translate-x-full');
-      }
-    }
-
-    // ランナー側からのメモ保存
-    let memoDebounceTimer = null;
-    function saveCurrentAppMemo(text) {
-      if (!activeRunningAppId) return;
-      appNotes[activeRunningAppId] = text;
-      localStorage.setItem(STORAGE_KEY_NOTES, JSON.stringify(appNotes));
-
-      const status = document.getElementById('memoSavedStatus');
-      status.classList.remove('opacity-0');
-
-      clearTimeout(memoDebounceTimer);
-      memoDebounceTimer = setTimeout(() => {
-        status.classList.add('opacity-0');
-        renderApps();
-      }, 1500);
-    }
-
-    // ランナー側からの探究完了トグル
-    function toggleCompletedFromRunner() {
-      if (!activeRunningAppId) return;
-      const isDone = completedApps.has(activeRunningAppId);
-      if (isDone) {
-        completedApps.delete(activeRunningAppId);
+    // 探究完了切り替え
+    function toggleCompleted(id) {
+      if (completedApps.has(id)) {
+        completedApps.delete(id);
         showToast('探究完了を取り消しました', 'info');
       } else {
-        completedApps.add(activeRunningAppId);
+        completedApps.add(id);
         showToast('🎉 探究完了として記録しました！', 'success');
       }
       localStorage.setItem(STORAGE_KEY_COMPLETED, JSON.stringify([...completedApps]));
-      updateRunnerCompleteButton(!isDone);
       renderApps();
-    }
-
-    function updateRunnerCompleteButton(isDone) {
-      const text = document.getElementById('runnerCompleteText');
-      const icon = document.getElementById('runnerCompleteIcon');
-      if (isDone) {
-        text.textContent = '探究完了済';
-        icon.className = 'fa-solid fa-circle-check text-emerald-400';
-      } else {
-        text.textContent = '探究済みにする';
-        icon.className = 'fa-regular fa-circle-check text-slate-400';
-      }
-    }
-
-    // 全画面表示トグル
-    function toggleFullscreen() {
-      const modal = document.getElementById('runnerModal');
-      const icon = document.getElementById('fullscreenIcon');
-      if (!document.fullscreenElement) {
-        modal.requestFullscreen?.().catch(err => {
-          showToast('全画面表示に切り替えられませんでした', 'error');
-        });
-        icon.className = 'fa-solid fa-compress';
-      } else {
-        document.exitFullscreen?.();
-        icon.className = 'fa-solid fa-expand';
-      }
     }
 
     // お気に入り切り替え
@@ -1223,7 +923,7 @@
       renderApps();
     }
 
-    // 表示モード切り替え（グリッド / リスト）
+    // 表示モード切り替え
     function setViewMode(mode) {
       viewMode = mode;
       const gridBtn = document.getElementById('viewModeGrid');
@@ -1246,7 +946,6 @@
       document.getElementById('searchInput').value = '';
       document.getElementById('clearSearchBtn').classList.add('hidden');
       
-      // ボタンのアクティブ状態を初期化
       const allCatBtn = document.querySelector('.category-btn[data-category="all"]');
       if (allCatBtn) setCategoryFilter('all', allCatBtn);
       const allGradeBtn = document.querySelector('.grade-filter-btn[data-grade="all"]');
@@ -1313,7 +1012,6 @@
       }, 200);
     }
 
-    // 新規教材の追加処理
     function handleAddNewApp(e) {
       e.preventDefault();
       const title = document.getElementById('newAppTitle').value.trim();
@@ -1339,7 +1037,6 @@
 
       appsData.unshift(newApp);
 
-      // カスタム教材をローカルストレージへ保存
       const customApps = appsData.filter(a => a.id.startsWith('custom-'));
       localStorage.setItem(STORAGE_KEY_APPS, JSON.stringify(customApps));
 
@@ -1349,7 +1046,7 @@
       renderApps();
     }
 
-    // トースト通知マネージャー
+    // トースト通知
     function showToast(message, type = 'info') {
       const container = document.getElementById('toastContainer');
       const toast = document.createElement('div');
@@ -1373,21 +1070,19 @@
       }, 3000);
     }
 
-    // ランダム教材おすすめ機能
+    // おすすめ教材（別タブ起動）
     function launchRandomApp() {
       if (appsData.length === 0) return;
       const randomIndex = Math.floor(Math.random() * appsData.length);
       const chosen = appsData[randomIndex];
-      showToast(`🎲 今日の教材: 「${chosen.title}」を起動します`, 'info');
-      launchApp(chosen.id);
+      showToast(`🎲 「${chosen.title}」を別タブで開きます`, 'info');
+      window.open(chosen.url, '_blank', 'noopener,noreferrer');
     }
 
-    // スクロールアシスト
     function scrollToGrid() {
       document.getElementById('exploreSection').scrollIntoView({ behavior: 'smooth' });
     }
 
-    // ナビ統計の更新
     function updateNavStats() {
       const total = appsData.length;
       const completed = completedApps.size;
@@ -1404,7 +1099,6 @@
       }
     }
 
-    // カテゴリカウントバッジの更新
     function updateCategoryBadges() {
       const allCount = appsData.length;
       const geoCount = appsData.filter(a => a.category === '図形・幾何').length;
@@ -1419,7 +1113,6 @@
       document.getElementById('count-num').textContent = `(${numCount})`;
     }
 
-    // ダークモード切り替え
     function toggleDarkMode() {
       const html = document.documentElement;
       const icon = document.getElementById('darkModeIcon');
@@ -1446,7 +1139,6 @@
       }
     }
 
-    // 進捗サマリーの表示
     function toggleProgressSummary() {
       const total = appsData.length;
       const completed = completedApps.size;
@@ -1454,7 +1146,6 @@
       showToast(`現在 ${total} 件中 ${completed} 件の教材を探究済みです（達成率: ${percent}%）`, 'info');
     }
 
-    // データのバックアップ出力
     function exportUserData() {
       const data = {
         favorites: [...favorites],
@@ -1472,7 +1163,6 @@
       showToast('学習履歴とメモを保存しました', 'success');
     }
 
-    // 全データのリセット
     function resetAllStorageData() {
       if (window.confirm && window.confirm('学習メモ、ブックマーク、追加教材のデータを初期化しますか？')) {
         localStorage.removeItem(STORAGE_KEY_APPS);
@@ -1483,23 +1173,16 @@
       }
     }
 
-    // キーボードショートカット (Escでモーダルを閉じる)
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        const runnerModal = document.getElementById('runnerModal');
-        if (!runnerModal.classList.contains('hidden')) {
-          closeRunnerModal();
-        }
         closeAddModal();
         closeMemoDialog();
       }
     });
 
-    // 初期化ロード
     window.addEventListener('DOMContentLoaded', () => {
       initTheme();
 
-      // ローカルストレージ復元
       try {
         const savedCustom = JSON.parse(localStorage.getItem(STORAGE_KEY_APPS) || '[]');
         appsData = [...INITIAL_APPS, ...savedCustom];
