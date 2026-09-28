@@ -31,6 +31,7 @@
               calc: '#f59e0b',   // 動点・微積: アンバー
               num: '#ec4899',    // 整数・式: ピンク/ローズ
               space: '#8b5cf6',  // 空間: パープル
+              science: '#0d9488' // 理科・探究: ティール
             }
           },
           fontFamily: {
@@ -110,11 +111,18 @@
 
       <!-- 右側のアクションボタン群 -->
       <div class="flex items-center gap-2 sm:gap-3">
+        <!-- 姉妹ポータル: 理科ラボ リンク -->
+        <a href="https://matsukio1011.github.io/rika/index.html" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/50 dark:hover:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 transition-all border border-emerald-200 dark:border-emerald-800 shadow-xs" title="中学理科ポータル「理科ラボ」を開く">
+          <i class="fa-solid fa-flask text-emerald-500"></i>
+          <span class="hidden sm:inline">理科ラボ</span>
+          <i class="fa-solid fa-arrow-up-right-from-square text-[9px] opacity-70"></i>
+        </a>
+
         <!-- 学習進捗バッジ -->
         <button id="progressBtn" onclick="toggleProgressSummary()" class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-colors border border-slate-200 dark:border-slate-700" title="探究済み教材の進捗状況">
           <i class="fa-solid fa-graduation-cap text-indigo-500"></i>
           <span>探究進捗:</span>
-          <span id="navProgressRate" class="text-brand-600 dark:text-brand-400 font-bold">0 / 6 (0%)</span>
+          <span id="navProgressRate" class="text-brand-600 dark:text-brand-400 font-bold">0 / 7 (0%)</span>
         </button>
 
         <!-- ブックマークフィルター切り替えボタン -->
@@ -214,7 +222,7 @@
       <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between flex-wrap gap-2">
         <div class="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto py-1" id="categoryFilterContainer">
           <button class="category-btn active px-3.5 py-1.5 rounded-full text-xs font-bold transition-all bg-slate-900 text-white dark:bg-white dark:text-slate-900 shadow-sm" data-category="all" onclick="setCategoryFilter('all', this)">
-            すべて <span id="count-all" class="ml-1 opacity-75 font-normal">(6)</span>
+            すべて <span id="count-all" class="ml-1 opacity-75 font-normal">(7)</span>
           </button>
           <button class="category-btn px-3 py-1.5 rounded-full text-xs font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700" data-category="図形・幾何" onclick="setCategoryFilter('図形・幾何', this)">
             <i class="fa-solid fa-draw-polygon text-emerald-500 mr-1"></i>図形・幾何 <span id="count-geo" class="ml-0.5 opacity-75 font-normal"></span>
@@ -228,11 +236,14 @@
           <button class="category-btn px-3 py-1.5 rounded-full text-xs font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700" data-category="数と式" onclick="setCategoryFilter('数と式', this)">
             <i class="fa-solid fa-calculator text-pink-500 mr-1"></i>数と式 <span id="count-num" class="ml-0.5 opacity-75 font-normal"></span>
           </button>
+          <button class="category-btn px-3 py-1.5 rounded-full text-xs font-bold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700" data-category="理科・科学" onclick="setCategoryFilter('理科・科学', this)">
+            <i class="fa-solid fa-flask text-teal-500 mr-1"></i>理科・科学 <span id="count-science" class="ml-0.5 opacity-75 font-normal"></span>
+          </button>
         </div>
 
         <!-- 表示切り替え & 件数表示 -->
         <div class="flex items-center gap-3 text-xs text-slate-500 dark:text-slate-400 ml-auto pt-2 sm:pt-0">
-          <span id="resultCountLabel" class="font-medium">6 件の教材を表示中</span>
+          <span id="resultCountLabel" class="font-medium">7 件の教材を表示中</span>
           <div class="flex rounded-lg border border-slate-200 dark:border-slate-700 p-0.5 bg-slate-50 dark:bg-slate-800">
             <button onclick="setViewMode('grid')" id="viewModeGrid" class="px-2 py-1 rounded bg-white dark:bg-slate-700 text-slate-800 dark:text-white shadow-xs" title="グリッド表示">
               <i class="fa-solid fa-table-cells-large"></i>
@@ -302,6 +313,7 @@
               <option value="関数・グラフ">関数・グラフ</option>
               <option value="動点・融合">動点・融合</option>
               <option value="数と式">数と式</option>
+              <option value="理科・科学">理科・科学</option>
             </select>
           </div>
           <div>
@@ -367,7 +379,13 @@
         <span class="font-bold text-slate-700 dark:text-slate-300">MathQuest Portal</span>
         <span>— インタラクティブ数学教材プラットフォーム</span>
       </div>
-      <div class="flex items-center gap-4">
+      <div class="flex items-center gap-4 flex-wrap justify-center sm:justify-end">
+        <a href="https://matsukio1011.github.io/rika/index.html" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-600 transition-colors flex items-center gap-1 font-semibold text-emerald-700 dark:text-emerald-400">
+          <i class="fa-solid fa-flask text-[10px]"></i>
+          <span>理科ラボ</span>
+          <i class="fa-solid fa-arrow-up-right-from-square text-[8px] opacity-70"></i>
+        </a>
+        <span class="text-slate-300 dark:text-slate-700 hidden sm:inline">|</span>
         <span>作成された教材への直接リンク対応</span>
         <button onclick="exportUserData()" class="hover:text-brand-600 transition-colors" title="進捗とお気に入りをJSON出力">データ保存</button>
         <button onclick="resetAllStorageData()" class="hover:text-red-500 transition-colors" title="データを初期状態に戻す">リセット</button>
@@ -491,6 +509,25 @@
           '難関入試で差がつく「立方体の切断面」の切り口を自在にシミュレート'
         ],
         svgType: 'cube3d'
+      },
+      {
+        id: 'rika-portal',
+        title: '理科ラボ (中学理科インタラクティブポータル)',
+        shortDesc: '力のはたらき（つり合い・作用反作用・分解）と電気回路（直列・並列）を図とシミュレーターとクイズで体感探究',
+        url: 'https://matsukio1011.github.io/rika/index.html',
+        category: '理科・科学',
+        categoryKey: 'science',
+        grade: '中1 中2 中3',
+        gradeBadge: '中1〜中3',
+        icon: 'fa-flask',
+        themeColor: '#0d9488',
+        tags: ['力の関係性', '作用・反作用', '力の分解', '電気回路', 'オームの法則', '理科クイズ'],
+        points: [
+          '力のつり合い・分解・作図をリアルタイムな矢印シミュレーションで可視化',
+          '直列・並列回路の電流・電圧・抵抗の変化を実験＆クイズで理解',
+          '数学の比例・反比例やベクトル作図とも連動する中学理科ポータル'
+        ],
+        svgType: 'science'
       }
     ];
 
@@ -616,6 +653,35 @@
                 <polygon points="-22,-5 22,-5 0,25" fill="#f59e0b" fill-opacity="0.4" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="2,2"/>
               </g>
               <text x="100" y="112" fill="${color}" font-size="9" font-family="monospace" text-anchor="middle">3D Rotation & Net</text>
+            </svg>`;
+        case 'science':
+          return `
+            <svg class="w-full h-full" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="grad-flask" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="${color}" stop-opacity="0.3"/>
+                  <stop offset="100%" stop-color="${color}" stop-opacity="0.05"/>
+                </linearGradient>
+              </defs>
+              <!-- 回路ワイヤー背景 -->
+              <path d="M 25 35 L 75 35" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="2,2"/>
+              <path d="M 125 35 L 175 35 L 175 85 L 140 85" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="2,2"/>
+              <path d="M 25 35 L 25 85 L 60 85" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="2,2"/>
+              <!-- 電池マーク (回路) -->
+              <line x1="90" y1="28" x2="90" y2="42" stroke="${color}" stroke-width="2.5"/>
+              <line x1="98" y1="22" x2="98" y2="48" stroke="${color}" stroke-width="3.5"/>
+              <!-- 抵抗ボックス -->
+              <rect x="60" y="77" width="35" height="16" rx="3" fill="${color}" fill-opacity="0.2" stroke="${color}" stroke-width="1.8"/>
+              <text x="77" y="89" fill="${color}" font-size="8" font-family="monospace" text-anchor="middle" font-weight="bold">R₁</text>
+              <rect x="105" y="77" width="35" height="16" rx="3" fill="#f59e0b" fill-opacity="0.2" stroke="#f59e0b" stroke-width="1.8"/>
+              <text x="122" y="89" fill="#f59e0b" font-size="8" font-family="monospace" text-anchor="middle" font-weight="bold">R₂</text>
+              <!-- 力の矢印 (ベクトル) -->
+              <path d="M 45 75 L 45 45 M 40 52 L 45 45 L 50 52" stroke="#10b981" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <text x="45" y="38" fill="#10b981" font-size="8" font-family="monospace" text-anchor="middle" font-weight="bold">F₁↑</text>
+              <path d="M 155 45 L 155 75 M 150 68 L 155 75 L 160 68" stroke="#ef4444" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <text x="155" y="86" fill="#ef4444" font-size="8" font-family="monospace" text-anchor="middle" font-weight="bold">F₂↓</text>
+              <!-- タイトルラベル -->
+              <text x="100" y="110" fill="${color}" font-size="9" font-family="monospace" text-anchor="middle" font-weight="bold">Force & Electricity Lab</text>
             </svg>`;
         default:
           return `
@@ -1105,12 +1171,15 @@
       const funcCount = appsData.filter(a => a.category === '関数・グラフ').length;
       const motionCount = appsData.filter(a => a.category === '動点・融合').length;
       const numCount = appsData.filter(a => a.category === '数と式').length;
+      const scienceCount = appsData.filter(a => a.category === '理科・科学').length;
 
       document.getElementById('count-all').textContent = `(${allCount})`;
       document.getElementById('count-geo').textContent = `(${geoCount})`;
       document.getElementById('count-func').textContent = `(${funcCount})`;
       document.getElementById('count-motion').textContent = `(${motionCount})`;
       document.getElementById('count-num').textContent = `(${numCount})`;
+      const scienceEl = document.getElementById('count-science');
+      if (scienceEl) scienceEl.textContent = `(${scienceCount})`;
     }
 
     function toggleDarkMode() {
