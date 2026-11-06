@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
@@ -111,6 +111,13 @@
 
       <!-- 右側のアクションボタン群 -->
       <div class="flex items-center gap-2 sm:gap-3">
+        <!-- 姉妹ポータル: 算数道場 リンク -->
+        <a href="https://matsukio1011.github.io/sansu/index.html" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-orange-50 hover:bg-orange-100 dark:bg-orange-950/50 dark:hover:bg-orange-900/60 text-orange-700 dark:text-orange-300 transition-all border border-orange-200 dark:border-orange-800 shadow-xs" title="算数トレーニング道場を開く">
+          <i class="fa-solid fa-shapes text-orange-500"></i>
+          <span class="hidden sm:inline">算数道場</span>
+          <i class="fa-solid fa-arrow-up-right-from-square text-[9px] opacity-70"></i>
+        </a>
+
         <!-- 姉妹ポータル: 理科ラボ リンク -->
         <a href="https://matsukio1011.github.io/rika/index.html" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/50 dark:hover:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 transition-all border border-emerald-200 dark:border-emerald-800 shadow-xs" title="中学理科ポータル「理科ラボ」を開く">
           <i class="fa-solid fa-flask text-emerald-500"></i>
@@ -209,6 +216,7 @@
           <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 whitespace-nowrap pl-1"><i class="fa-solid fa-user-graduate mr-1"></i>学年:</span>
           <div class="flex gap-1.5" id="gradePillsContainer">
             <button class="grade-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-brand-600 text-white shadow-sm" data-grade="all" onclick="setGradeFilter('all', this)">すべて</button>
+            <button class="grade-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700" data-grade="算数" onclick="setGradeFilter('算数', this)">算数</button>
             <button class="grade-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700" data-grade="中1" onclick="setGradeFilter('中1', this)">中1</button>
             <button class="grade-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700" data-grade="中2" onclick="setGradeFilter('中2', this)">中2</button>
             <button class="grade-filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700" data-grade="中3" onclick="setGradeFilter('中3', this)">中3</button>
@@ -380,6 +388,12 @@
         <span>— インタラクティブ数学教材プラットフォーム</span>
       </div>
       <div class="flex items-center gap-4 flex-wrap justify-center sm:justify-end">
+        <a href="https://matsukio1011.github.io/sansu/index.html" target="_blank" rel="noopener noreferrer" class="hover:text-orange-600 transition-colors flex items-center gap-1 font-semibold text-orange-700 dark:text-orange-400">
+          <i class="fa-solid fa-shapes text-[10px]"></i>
+          <span>算数道場</span>
+          <i class="fa-solid fa-arrow-up-right-from-square text-[8px] opacity-70"></i>
+        </a>
+        <span class="text-slate-300 dark:text-slate-700 hidden sm:inline">|</span>
         <a href="https://matsukio1011.github.io/rika/index.html" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-600 transition-colors flex items-center gap-1 font-semibold text-emerald-700 dark:text-emerald-400">
           <i class="fa-solid fa-flask text-[10px]"></i>
           <span>理科ラボ</span>
@@ -454,21 +468,40 @@
         svgType: 'motion'
       },
       {
+        id: 'sansu',
+        title: '算数トレーニング道場',
+        shortDesc: '分数×整数、約分マスター、倍数判定、帯分数、速さ（はじき）、ドパ倍数、割合暗算アニマル道場まで全7アプリを収録',
+        url: 'https://matsukio1011.github.io/sansu/index.html',
+        category: '数と式',
+        categoryKey: 'num',
+        grade: '算数',
+        gradeBadge: '小学生・基礎',
+        icon: 'fa-shapes',
+        themeColor: '#ea580c',
+        tags: ['分数・整数', '約分マスター', '倍数判定', '帯分数', '速さ(はじき)', '割合暗算', 'ドパ倍数'],
+        points: [
+          '分数×整数の計算修行や1〜50真分数の約分判定を素早く反復トレーニング',
+          '速さ（はじき・みはじ）や割合暗算などつまずきやすい重要単元を網羅',
+          '全7アプリ収録・キーボード対応・PCスクロール不要の1画面完結UI'
+        ],
+        svgType: 'sansu'
+      },
+      {
         id: 'seisu',
-        title: '整数ラボ (素数・約数・ユークリッド)',
-        shortDesc: '素数判定、エラトステネスの篩、最大公約数・最小公倍数、倍数の規則性をビジュアル探究',
-        url: 'https://matsukio1011.github.io/seisu/',
+        title: '数学トレーニング (中学・高校)',
+        shortDesc: '数分類、式の展開・因数分解、間違いやすい方程式、等式◯✕、文字式、ルート約分、樹形図の特訓ポータル',
+        url: 'https://matsukio1011.github.io/seisu/index.html',
         category: '数と式',
         categoryKey: 'num',
         grade: '中1',
-        gradeBadge: '中1・高1(数A)',
+        gradeBadge: '中1〜高1',
         icon: 'fa-cubes-stacked',
         themeColor: '#ec4899',
-        tags: ['素因数分解', 'エラトステネスの篩', 'ユークリッド互除法', '公約数・公倍数', '合同式'],
+        tags: ['数分類', '式の展開・因数分解', '方程式', '等式◯✕', '文字式の表し方', 'ルート約分', '樹形図'],
         points: [
-          '数字グリッドから素数が浮き上がるグラフィカルな篩い分け',
-          '数の性質や周期性、倍数の規則性をゲーム感覚で発見',
-          '中学の素因数分解から高校数学Aの整数論まで網羅'
+          '中高生がつまずきやすい方程式や文字式の表し方4択を徹底特訓',
+          '和と差の積や平方根の約分（有理化）をタイムアタック＆ランキングで反復',
+          '樹形図ビジュアライザーで場合の数・順列を直感的にマスター'
         ],
         svgType: 'numbers'
       },
@@ -571,6 +604,34 @@
     // カード用の数学的SVGイラストジェネレーター
     function getSvgIllustration(type, color) {
       switch (type) {
+        case 'sansu':
+          return `
+            <svg class="w-full h-full" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+              <g transform="translate(18, 14)">
+                <text x="12" y="16" fill="${color}" font-size="14" font-weight="900" text-anchor="middle">1</text>
+                <line x1="3" y1="21" x2="21" y2="21" stroke="${color}" stroke-width="2.5" stroke-linecap="round"/>
+                <text x="12" y="36" fill="${color}" font-size="14" font-weight="900" text-anchor="middle">2</text>
+                
+                <text x="32" y="26" fill="${color}" font-size="16" font-weight="bold" text-anchor="middle">×</text>
+                
+                <text x="52" y="16" fill="${color}" font-size="14" font-weight="900" text-anchor="middle">3</text>
+                <line x1="43" y1="21" x2="61" y2="21" stroke="${color}" stroke-width="2.5" stroke-linecap="round"/>
+                <text x="52" y="36" fill="${color}" font-size="14" font-weight="900" text-anchor="middle">4</text>
+                
+                <text x="73" y="26" fill="${color}" font-size="16" font-weight="bold" text-anchor="middle">=</text>
+                
+                <text x="94" y="16" fill="${color}" font-size="14" font-weight="900" text-anchor="middle">3</text>
+                <line x1="85" y1="21" x2="103" y2="21" stroke="${color}" stroke-width="2.5" stroke-linecap="round"/>
+                <text x="94" y="36" fill="${color}" font-size="14" font-weight="900" text-anchor="middle">8</text>
+              </g>
+              <g transform="translate(25, 66)">
+                <rect x="0" y="0" width="70" height="24" rx="6" fill="${color}" fill-opacity="0.15" stroke="${color}" stroke-width="1.2"/>
+                <text x="35" y="16" fill="${color}" font-size="10" font-weight="bold" text-anchor="middle">速さ = 距 ÷ 時</text>
+                
+                <rect x="80" y="0" width="70" height="24" rx="6" fill="${color}" fill-opacity="0.15" stroke="${color}" stroke-width="1.2"/>
+                <text x="115" y="16" fill="${color}" font-size="10" font-weight="bold" text-anchor="middle">割合・倍数 %</text>
+              </g>
+            </svg>`;
         case 'triangle':
           return `
             <svg class="w-full h-full" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
